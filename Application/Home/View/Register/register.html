@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{$title}</title>
+    <script src="/Public/js/jquery-1.12.3.min.js"></script>
+</head>
+<body>
+      <!--<span>
+        姓名:<eq name="age" value="$age">正常{$age}<else/>不正常</eq><br/>
+          名字:<if condition="$age elt 50">正常{$age}<else/>不正常</if>
+      </span>-->
+    <ul>
+        <li>姓名: <input type="text" name="name" id="name"></li>
+        <li>年龄: <input type="text" name="age" id="age"></li>
+        <li><input type="button" value="注册" id="J-register"></li>
+    </ul>
+
+<script>
+    $(function(){
+        $('#J-register').on('click',function(){
+            var name =$('#name').val();
+            var age = $('#age').val();
+            $.ajax({
+                url:'/index.php/Home/Register/registerUser',
+                type:'post',
+                dataType:'json',
+                data:{name:name,age:age},
+                success:function( res ){
+                    if( res.code == 1){
+                        alert('注册成功');
+                    }else{
+                        alert( res.msg );
+                    }
+                }
+            })
+        })
+
+    })
+</script>
+</body>
+</html>

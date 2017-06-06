@@ -1,0 +1,22 @@
+[ 2017-06-03T11:13:16+08:00 ] 127.0.0.1 /
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:1.255072s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.336020s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.336020s ]
+SQL: SHOW COLUMNS FROM `b_article` [ RunTime:0.0520s ]
+SQL: SELECT * FROM `b_article`  [ RunTime:0.0150s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.296017s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.296017s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.528030s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.528030s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.103006s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.104006s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.135008s ]
+INFO: [ app_end ] --END-- [ RunTime:0.135008s ]
+

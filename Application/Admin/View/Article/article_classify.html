@@ -1,0 +1,273 @@
+<include file="include:header" />
+<div id="wrapper">
+    <div id="page-wrapper">
+        <div class="container-fluid">
+
+            <!-- Page Heading -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <ol class="breadcrumb">
+                        <li>
+                            <i class="fa fa-dashboard"></i>  <a href="{:U('Admin/Article/article_list')}">文章管理</a>
+                        </li>
+                        <li class="active">
+                            <i class="fa fa-edit"></i> 文章分类管理
+                        </li>
+                    </ol>
+                </div>
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#identifier" data-toggle="tab" >添加文章分类</a></li>
+                    <li><a href="#identifier" data-toggle="tab">修改文章分类</a></li>
+                    <li><a href="#identifier" data-toggle="tab">删除文章分类</a></li>
+                </ul>
+            </div>
+
+            <div class="row tab" style="margin-top: 20px;">
+                <div class="col-lg-12">
+                    <form role="form">
+                        <div class="form-group">
+                            <label>分类名称</label>
+                            <input class="form-control" id="J-name" placeholder="请输入文章分类名称">
+                        </div>
+
+                        <button type="button" id="J-add" class="btn btn-default">添加</button>
+
+                    </form>
+
+                </div>
+            </div>
+            <div class="row tab" style="display: none;margin-top: 20px;">
+                <div class="col-lg-12">
+                    <form role="form" id="J-adfy-form">
+                        <if condition="$result neq ''">
+                        <div class="form-group">
+
+                                <label>请选择要修改的分类名称</label>
+                                <select class="form-control" name="id" id="">
+                                    <foreach name="result" item="v" key="k">
+                                        <option value="{$v['id']}">{$v['category_name']}</option>
+                                    </foreach>
+                                </select>
+                        </div>
+                           <div class="form-group">
+                               <label>修改后的分类名称</label>
+                               <input type="text" class="form-control" id="cate-name" placeholder="请填写修改后的分类名称" name="category_name">
+                           </div>
+                            <else />
+                            <div class="jumbotron">
+                                暂无分类修改
+                            </div>
+
+                        </if>
+
+                        <button type="button" id="J-adfily" class="btn btn-default">修改</button>
+
+                    </form>
+
+                </div>
+            </div>
+            <div class="row tab tab2" style="display: none;margin-top: 20px;">
+                <div class="col-lg-12">
+
+                    <form role="form" id="J-form2">
+
+                        <div class="form-group">
+                            <label>分类名称</label>
+
+                            <empty name="result">
+
+                                <div class="jumbotron">
+                                    暂无分类
+                                </div>
+                                <else />
+                                <foreach name="result" item="v" key="k">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" class="J-check" name="ids[]" value=" {$v.id}">
+                                            {$v.category_name}
+                                        </label>
+                                    </div>
+                                </foreach>
+                            </empty>
+                        </div>
+
+                        <button type="button" id="J-adify" class="btn btn-default">删除</button>
+
+                    </form>
+
+                </div>
+            </div>
+            <!-- /.row -->
+
+        </div>
+        <!-- 模态框（Modal） -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel">提示</h4>
+                    </div>
+                    <div class="modal-body" id="modal-cont">
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn btn-primary" id="J-ok">ok</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
+
+    </div>
+    <!-- /#page-wrapper -->
+
+</div>
+<!-- /#wrapper -->
+
+<!-- jQuery -->
+<script src="{$Think.const.ADMIN_JS}/jquery.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="{$Think.const.ADMIN_JS}/bootstrap.min.js"></script>
+<script>
+
+    function ajaxSubmit(url, frm, fn, type) {
+        type = type ? type : 'json';
+        var dataPara = getFormJson(frm);
+        $.ajax({
+            url: url,
+            type: "post",
+            data: dataPara,
+            async: false,
+            dataType: type,
+            success: fn
+        });
+    }
+
+
+    //将form中的值转换为键值对
+    function getFormJson(frm) {
+        var o = {};
+        var a = $(frm).serializeArray();
+        $.each(a, function () {
+            if (o[this.name] !== undefined) {
+                if (!o[this.name].push) {
+                    o[this.name] = [o[this.name]];
+                }
+                o[this.name].push(this.value || '');
+            } else {
+                o[this.name] = this.value || '';
+            }
+        });
+        return o;
+    }
+
+    function showDialog(data,isHide,fn){
+        var isHide = isHide ? true : false;
+        $('#modal-cont').text(data);
+        $('#myModal').modal('show');
+        if(isHide){
+            $('#J-ok').on('click',function(){
+                $('#myModal').modal('hide');
+                fn();
+            })
+        }else{
+            $('#J-ok').on('click',function(){
+                $('#myModal').modal('hide');
+            })
+        }
+
+    }
+
+    //tab
+    function Tab(menuBox, ele, showBox, className) {
+        $(menuBox).find(ele).click(function () {
+            var index = $(this).index();
+            className ? $(this).addClass(className).siblings().removeClass(className) : '';
+            $(showBox).hide().eq(index).show();
+        });
+    }
+
+
+    $(function(){
+        //tab
+        Tab('.nav-tabs','li','.tab','active');
+
+
+        //分类添加
+        $('#J-add').on('click',function(){
+            var name = $('#J-name').val();
+            if(!name){
+                showDialog('分类名称不能为空');
+            }
+            $.ajax({
+                url:'/index.php/Admin/Article/article_classify_add',
+                type:'post',
+                dataType:'json',
+                data:{name:name}
+            }).then(function( res ){
+               if( res.code == 1){
+                   showDialog(res.msg,true,function(){
+                       window.location.href = '/index.php/Admin/Article/article_list';
+                   });
+                }else{
+                   showDialog(res.msg);
+               }
+            })
+        });
+
+
+        //分类修改
+        $('#J-adfily').on('click',function(){
+            var name = $('#cate-name').val();
+            if(!name){
+                showDialog('请填写修改后的分类名称');
+                return;
+            }
+            ajaxSubmit('/index.php/Admin/Article/article_classify_modification','#J-adfy-form',function(res){
+                if( res.code ==1){
+                    showDialog(res.msg);
+                    setTimeout(function(){
+                        window.location.href = '/index.php/Admin/Article/article_list';
+                    },3000)
+                }else{
+                    showDialog(res.msg);
+                }
+            })
+        });
+
+
+        //分类删除
+        $('#J-adify').on('click',function(){
+            if($('input[class="J-check"]:checked').length > 0){
+                showDialog('删除了该分类，该分类下的文章也会删除，是否删除？',true,function(){
+                    ajaxSubmit('/index.php/Admin/Article/article_classify_del','#J-form2',function( res ){
+                        if( res.code == 1){
+                            showDialog( res.msg);
+                            setTimeout(function(){
+                                window.location.href = '/index.php/Admin/Article/article_list';
+                            },3000);
+
+                        }else{
+                            showDialog( res.msg );
+                        }
+                    })
+                });
+            }else{
+                showDialog('先选择要删除的分类');
+            }
+        })
+
+
+
+    })
+</script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{$title}</title>
+</head>
+<body>
+<ul>
+    <foreach name="result" item="v" key="k">
+        <li>
+            <p>文章标题:{$v.title}</p>
+            <p>作者：{$v.author}时间:{$v.ctime|date="Y-m-d h:i:s",###}标签:{$v.tag}分类:{$v.fid}</p>
+            文章内容:
+            <div>
+                {$v.content}
+            </div>
+        </li>
+    </foreach>
+</ul>
+
+<div>
+
+</div>
+</body>
+</html>

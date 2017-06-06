@@ -1,0 +1,45 @@
+<include file="include:header" />
+    <div id="wrapper">
+    <div id="page-wrapper">
+        <div class="container-fluid">
+
+            <div class="page-header">
+                <h1> <small>欢迎登录CMS管理系统后台</small></h1>
+            </div>
+            <div class="jumbotron">
+                <p>
+                    系统信息
+                </p>
+                <p>
+                    服务器域名:{$Think.const.$_SERVER["HTTP_HOST"]}
+                </p>
+                <p>
+                    客户端ip:{$Think.const.$_SERVER['REMOTE_ADDR']}
+                </p>
+                <p>
+                    服务器语言:{$Think.const.$_SERVER['HTTP_ACCEPT_LANGUAGE']}
+                </p>
+                <p>
+                    系统类型及版本号:{$Think.const.php_uname()}
+                </p>
+            </div>
+
+        </div>
+        <!-- /.container-fluid -->
+
+    </div>
+    <!-- /#page-wrapper -->
+
+</div>
+<!-- /#wrapper -->
+
+<!-- jQuery -->
+<script src="{$Think.const.ADMIN_JS}/jquery.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="{$Think.const.ADMIN_JS}/bootstrap.min.js"></script>
+
+
+</body>
+
+</html>

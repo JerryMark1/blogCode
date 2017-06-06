@@ -1,0 +1,272 @@
+<include file="include:header"/>
+<div id="wrapper">
+    <div id="page-wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title"><i class="fa fa-money fa-fw"></i> 文章列表</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div style="margin-bottom: 10px;">
+                                <a class="btn btn-primary" href="{:U('Admin/Article/article_add')}">添加文章</a>
+                                <a class="btn btn-primary" href="{:U('Admin/Article/article_classify')}">文章分类管理</a>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover table-striped"
+                                       style="text-align: center">
+                                    <thead>
+                                    <tr>
+                                        <th style="text-align:center;">序号</th>
+                                        <th style="text-align:center;">作者</th>
+                                        <th style="text-align:center;">文章标题</th>
+                                        <th style="text-align:center;">文章简介</th>
+                                        <th style="text-align:center;">所属分类</th>
+                                        <th style="text-align:center;">发布人</th>
+                                        <th style="text-align:center;">更新时间</th>
+                                        <th style="text-align:center;">操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="J-content">
+                                    <!-- <foreach name="result" item="v" key="k">
+                                         <tr data-id="{$v.id}">
+                                             <td>{$v.id}</td>
+                                             <td>{$v.author}</td>
+                                             <td>{$v.title}</td>
+                                             <td>{$v.descript}</td>
+                                             <if condition="$v.categoryName neq ''">
+                                                 <td>{$v.categoryName}</td>
+                                                 <else/>
+                                                 <td>暂无分类</td>
+                                             </if>
+                                             <td>{$v.author}</td>
+                                             <td>{$v.ctime|date="Y-m-d h:i:s",###}</td>
+                                             <td> <a href="/index.php/Admin/Article/article_modify/aid/{$v.id}">修改</a> | <a href="javascript:;" class="J-del">删除</a></td>
+                                         </tr>
+                                     </foreach>-->
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="text-right">
+                                <ul id="example"></ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- /.container-fluid -->
+
+    </div>
+    <!-- /#page-wrapper -->
+
+</div>
+<!-- /#wrapper -->
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">提示</h4>
+            </div>
+            <div class="modal-body" id="modal-cont">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="J-ok">ok</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel2">提示</h4>
+            </div>
+            <div class="modal-body" id="modal-cont2">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="J-ok2">ok</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<!-- jQuery -->
+<script src="{$Think.const.ADMIN_JS}/jquery.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="{$Think.const.ADMIN_JS}/bootstrap.min.js"></script>
+<script src="{$Think.const.ADMIN_JS}/bootstrap-paginator.js"></script>
+<script>
+    $(function () {
+
+        //分页
+
+        function AjaxPaginator(obj) {
+            $.ajax({
+                type: 'POST',
+                url: '/index.php/Admin/Article/article_list',
+                dataType: 'JSON',
+                data: {page: 1},
+                success: function (data) {
+                    var list = data.list;
+                    if (data.code == 1) {
+                        if (list) {
+                            var _html = '';
+                            $.each(list, function (v, k) {
+                                var tagName = '';
+                                _html += '<tr data-id="' + k.id + '">\
+                                                       <td>' + k.id + '</td>\
+                                                <td>' + k.author + '</td>\
+                                                <td>' + k.title + '</td>\
+                                                <td>' + k.descript + '</td>\
+                                                <td>' + k.categoryName + '</td>\
+                                                    <td>' + k.author + '</td>\
+                                                <td>' + k.ctime + '</td>\
+                                                <td> <a href="/index.php/Admin/Article/article_modify/aid/' + k.id + '">修改</a> | <a href="javascript:;" class="J-del">删除</a></td>\
+                                                    </tr>';
+                            })
+                            $('#J-content').html(_html);
+                        } else {
+                            $('#J-content').html('暂无记录');
+                        }
+
+                    }
+
+                    var currentPage = data.currentPage || 1;
+                    var totalPages = data.curren.totalPages || 10;
+                    var options = {
+                        currentPage: currentPage, //当前页
+                        totalPages: totalPages, //总页数
+                        numberOfPages: 5, //设置控件显示的页码数
+                        bootstrapMajorVersion: 3,//如果是bootstrap3版本需要加此标识，并且设置包含分页内容的DOM元素为UL,如果是bootstrap2版本，则DOM包含元素是DIV
+                        useBootstrapTooltip: false,//是否显示tip提示框
+                        itemTexts: function (type, page, current) {
+                            //文字翻译
+                            switch (type) {
+                                case "first":
+                                    return "首页";
+                                case "prev":
+                                    return "上一页";
+                                case "next":
+                                    return "下一页";
+                                case "last":
+                                    return "尾页";
+                                case "page":
+                                    return page;
+                            }
+                        },
+                        onPageClicked: function (event, originalEvent, type, page) {
+                            $.ajax({
+                                url: '/index.php/Admin/Article/article_list', //点击分页提交当前页码
+                                type: 'post',
+                                dataType: 'json',
+                                data: {page: page},
+                                success: function (res) {
+                                    var list = res.list;
+                                    if (res.code == 1) {
+                                        if (list) {
+                                            var _html = '';
+                                            $.each(list, function (v, k) {
+                                                var tagName = '';
+                                                if (k.categoryName) {
+                                                    tagName = '<td>' + k.categoryName + '</td>';
+                                                } else {
+                                                    tagName = '暂无分类';
+                                                }
+                                                _html += '<tr data-id="' + k.id + '">\
+                                                       <td>' + k.id + '</td>\
+                                                <td>' + k.author + '</td>\
+                                                <td>' + k.title + '</td>\
+                                                <td>' + k.descript + '</td>\
+                                                ' + tagName + '\
+                                                    <td>' + k.author + '</td>\
+                                                <td>' + k.ctime + '</td>\
+                                                <td> <a href="/index.php/Admin/Article/article_modify/aid/' + k.id + '">修改</a> | <a href="javascript:;" class="J-del">删除</a></td>\
+                                                    </tr>';
+                                            })
+                                            $('#J-content').html(_html);
+                                        } else {
+                                            $('#J-content').html('暂无记录');
+                                        }
+
+                                    }
+                                }
+                            })
+                        }
+                    }
+                    obj.bootstrapPaginator(options);
+                }
+            })
+        }
+
+        AjaxPaginator($('#example'));
+
+
+        function showDialog(data, isHide, fn) {
+            var isHide = isHide ? true : false;
+            $('#modal-cont').text(data);
+            $('#myModal').modal('show');
+            if (isHide) {
+                $('#J-ok').on('click', function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    $('#myModal').modal('hide');
+                    fn();
+
+                })
+            } else {
+                $('#J-ok').on('click', function () {
+                    $('#myModal').modal('hide');
+                })
+            }
+
+        }
+
+
+        $('.J-del').on('click', function () {
+            var self = $(this),
+                    id = self.parents('tr').attr('data-id');
+            showDialog('你真的确定删除这篇文章吗?', true, function () {
+                $.ajax({
+                    url: '/index.php/Admin/Article/article_del',
+                    type: 'post',
+                    dataType: 'json',
+                    data: {id: id}
+                }).then(function (res) {
+                    console.log(res);
+                    if (res.code == 1) {
+
+                        $('#modal-cont2').text(res.msg);
+                        $('#myModal2').modal('show');
+                        $('#J-ok2').on('click', function () {
+                            window.location.reload();
+                        });
+
+                    } else {
+                        showDialog('删除失败');
+                    }
+                })
+            });
+
+
+        })
+    })
+</script>
+
+
+</body>
+
+</html>
