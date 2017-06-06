@@ -63,6 +63,51 @@ class ArticleController extends BaseController {
         $this -> assign('title','文章添加');
         $this -> display();
     }
+
+
+    /**
+     * 文章添加 图片上传处理
+     * @author yxl 2017-6-6
+     * @url /index.php/Admin/Article/uploadPic
+     */
+    public function uploadPic(){
+        if (!empty($_FILES)) {
+            //图片上传设置
+            $config = array(
+                'maxSize'    =>    3145728,
+                'savePath'   =>    '',
+                'saveName'   =>    array('uniqid',''),
+                'exts'       =>    array('jpg', 'gif', 'png', 'jpeg'),
+                'autoSub'    =>    true,
+                'subName'    =>    array('date','Ymd'),
+                'rootPath'   =>    './Uploads/',
+                'savePath'   =>    ''
+            );
+            $upload = new \Think\Upload($config);// 实例化上传类
+            // 上传文件
+            $info = $upload->upload();
+            if (!$info) {// 上传错误提示错误信息
+                jsonReturn('上传失败',0);
+            } else {// 上传成功
+                //取得图片路径
+                $imgUrl = './Uploads/'.$info['file']['savepath'].$info['file']['savename'];
+                //图片类  缩略图所需
+                $image = new \Think\Image();
+                $image ->open($imgUrl);
+                //缩略图的名称
+                $ext = explode('.',$info['file']['savename']);
+                $thumbUrl = './Uploads/'.$info['file']['savepath'].$ext[0].'_m.'.$ext[1];
+                //生成缩略图  后缀多了_m
+                $image -> thumb(200,200) ->save($thumbUrl);
+                $urlInfo['img'] = substr($imgUrl,1);
+                $urlInfo['img_m'] = substr($thumbUrl,1);
+                jsonReturn('上传成功',1,$urlInfo);
+            }
+        }
+    }
+
+
+
     /**
      * 文章添加接口
      * @author yxl 2017-5-25
@@ -80,6 +125,7 @@ class ArticleController extends BaseController {
                 // 如果创建失败 表示验证没有通过 输出错误提示信息
                 jsonReturn($model->getError(),0);
             }
+
             $data = array(
                 'title' => I('title'),
                 'author' => $_SESSION['userName'],
@@ -87,7 +133,9 @@ class ArticleController extends BaseController {
                 'fid'  => I('fid'),
                 'ctime' => time(),
                 'descript' => I('descript'),
-                'tag' => I('tag')
+                'tag' => I('tag'),
+                'picurl' => I('picurl'),
+                'picthum' => I('picthum')
             );
             $res = $model->where(['title' => $data['title']])->select();
             if( $res ){
@@ -100,8 +148,6 @@ class ArticleController extends BaseController {
                     jsonReturn('文章添加失败',0);
                 }
             }
-
-
         }
 
     }
@@ -135,7 +181,9 @@ class ArticleController extends BaseController {
                 'fid'  => I('fid'),
                 'ctime' => time(),
                 'descript' => I('descript'),
-                'tag' => I('tag')
+                'tag' => I('tag'),
+                'picurl' => I('picurl'),
+                'picthum' => I('picthum')
             );
             $res = $model->where(['id'=>$aid])->save($data);
             if($res){

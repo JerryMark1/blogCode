@@ -13,6 +13,7 @@
 
     <!-- Custom Fonts -->
     <link href="<?php echo (ADMIN_FONT); ?>/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
 </head>
 <body>
 <!-- Navigation -->
@@ -218,9 +219,7 @@
 <script src="<?php echo (ADMIN_JS); ?>/bootstrap-paginator.js"></script>
 <script>
     $(function () {
-
         //分页
-
         function AjaxPaginator(obj) {
             $.ajax({
                 type: 'POST',

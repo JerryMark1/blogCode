@@ -29,7 +29,7 @@ define('APP_PATH','./Application/');
 define('ADMIN_JS','/Public/Admin/assets/js');
 define('ADMIN_CSS','/Public/Admin/assets/css');
 define('ADMIN_IMG','/Public/Admin/assets/img');
-define('ADMIN_FONT','/Public/Admin/assets/font-awesome');
+define('ADMIN_FONT','/Public/Admin/assets/fonts');
 
 //配置ueditor
 define('UE_SRC','/Public/Ueditor/');
