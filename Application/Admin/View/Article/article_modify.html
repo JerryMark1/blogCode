@@ -53,8 +53,10 @@
                         </div>
                         <div class="form-group">
                             <label>文章内容</label>
-                            <script id="editor" type="text/plain" style="width:1024px;height:500px;"></script>
-                            <input type="hidden" name="content" id="J-h-c" value="{$result.content}">
+                            <script id="editor" type="text/plain" style="width:1024px;height:500px;">
+                                <div id="J-h-cs">{$result.content}</div>
+                            </script>
+                            <input type="hidden" name="content"  id="J-h-c"  value="">
                         </div>
 
                         <input type="hidden" value="{$result.id}" name="aid">
@@ -256,12 +258,6 @@
 
 
     $(function(){
-        var cont = $('#J-h-c').val();
-        //富文本赋值
-        ue.ready(function(){
-            ue.setContent(cont);
-        });
-
 
         $('#J-add').on('click',function(){
             var content = ue.getContent(),
@@ -270,17 +266,17 @@
             $('#J-h-c').val( content );
             if(!content){
                 $('#modal-cont').text('文章内容不能为空');
-                $('#myModal').modal(show);
+                $('#myModal').modal('show');
                 return
             }
             if(!title){
                 $('#modal-cont').text('文章标题不能为空');
-                $('#myModal').modal(show);
+                $('#myModal').modal('show');
                 return
             }
             if(!desc){
                 $('#modal-cont').text('文章描述不能为空');
-                $('#myModal').modal(show);
+                $('#myModal').modal('show');
                 return
             }
 

@@ -369,23 +369,22 @@
             $('#J-h-c').val( content );
             if(!content){
                 $('#modal-cont').text('文章内容不能为空');
-                $('#myModal').modal(show);
+                $('#myModal').modal('show');
                 return
             }
             if(!title){
                 $('#modal-cont').text('文章标题不能为空');
-                $('#myModal').modal(show);
+                $('#myModal').modal('show');
                 return
             }
             if(!desc){
                 $('#modal-cont').text('文章描述不能为空');
-                $('#myModal').modal(show);
+                $('#myModal').modal('show');
                 return
             }
 
             ajaxSubmit('/index.php/Admin/Article/article_add_json','#J-add-form',function( res ){
                   if( res.code == 1){
-                      console.log(1);
                       $('#modal-cont').text(res.msg);
                       $('#myModal').modal('show');
 
@@ -395,7 +394,6 @@
                       })
 
                   }else{
-                      console.log(0);
                       $('#modal-cont').text(res.msg);
                       $('#myModal').modal('show');
                   }

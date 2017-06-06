@@ -27,7 +27,7 @@ class ArticleController extends BaseController {
             //2. 实例化分页类对象
             $page = new \Component\Page($total,$page); //autoload
             //3. 拼装sql语句获得每页信息
-            $sql = "select * from b_article ".$page->limit;
+            $sql = "select * from b_article order by ctime desc ".$page->limit;
             $info = $model -> query($sql);
             if($info){
                 foreach($info as $k => $v){
@@ -38,7 +38,6 @@ class ArticleController extends BaseController {
                     $info[$k]['ctime'] = date('Y-m-d h:i:s',$v['ctime']);
                 }
             }
-//            print_r( $info );
             jsonList('ok',1,$info,['totalPages' => $totalPages]);
         }
         $this->assign('title','文章列表');
@@ -83,7 +82,7 @@ class ArticleController extends BaseController {
             }
             $data = array(
                 'title' => I('title'),
-                'author' => session['userName'],
+                'author' => $_SESSION['userName'],
                 'content' => $_POST['editorValue'],
                 'fid'  => I('fid'),
                 'ctime' => time(),
@@ -132,7 +131,7 @@ class ArticleController extends BaseController {
             $data = array(
                 'title' => I('title'),
                 'author' => $_SESSION['userName'],
-                'content' => I('content'),
+                'content' => $_POST['content'],
                 'fid'  => I('fid'),
                 'ctime' => time(),
                 'descript' => I('descript'),
