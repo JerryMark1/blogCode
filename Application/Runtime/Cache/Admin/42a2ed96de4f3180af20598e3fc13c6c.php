@@ -13,6 +13,7 @@
 
     <!-- Custom Fonts -->
     <link href="<?php echo (ADMIN_FONT); ?>/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
 </head>
 <body>
 <!-- Navigation -->

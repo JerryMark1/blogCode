@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>博客</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!--[if lte IE 8]><script src="{$Think.const.HOME_RESOURCE}/js/ie/html5shiv.js"></script><![endif]-->
+    <link rel="stylesheet" href="{$Think.const.HOME_RESOURCE}/css/main.css" />
+    <!--[if lte IE 9]><link rel="stylesheet" href="{$Think.const.HOME_RESOURCE}/css/ie9.css" /><![endif]-->
+    <!--[if lte IE 8]><link rel="stylesheet" href="{$Think.const.HOME_RESOURCE}/css/ie8.css" /><![endif]-->
+</head>
+<body class="single">
+<!-- Wrapper -->
+<div id="wrapper">
+    <include file="include:header" />
+        <!-- Main -->
+        <div id="main">
+
+            <!-- Post -->
+            <article class="post">
+                <header>
+                    <div class="title">
+                        <h2>{$result.title}</h2>
+                        <p>{$result.descript}</p>
+                    </div>
+                    <div class="meta">
+                        <time class="published" datetime="2015-11-01">{$result.ctime}</time>
+                        <a href="#" class="author"><span class="name">{$result.author}</span><img src="images/avatar.jpg" alt="" /></a>
+                    </div>
+                </header>
+                <span class="image featured"><img src="{$result.picurl}" alt="" /></span>
+                <p>
+                    {$result.content}
+                </p>
+                <footer>
+                    <ul class="stats">
+                        <li><a href="#">{$result.categoryName}</a></li>
+                        <li><a href="#" class="icon fa-heart">28</a></li>
+                        <li><a href="#" class="icon fa-comment">128</a></li>
+                    </ul>
+                </footer>
+            </article>
+
+        </div>
+    <include file="include:footer" />
+
+</div>
+</body>
+</html>

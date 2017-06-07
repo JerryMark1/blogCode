@@ -30,6 +30,8 @@ define('ADMIN_JS','/Public/Admin/assets/js');
 define('ADMIN_CSS','/Public/Admin/assets/css');
 define('ADMIN_IMG','/Public/Admin/assets/img');
 define('ADMIN_FONT','/Public/Admin/assets/fonts');
+//定义前台公共资源路径
+define('HOME_RESOURCE','/Public/Home/assets');
 
 //配置ueditor
 define('UE_SRC','/Public/Ueditor/');

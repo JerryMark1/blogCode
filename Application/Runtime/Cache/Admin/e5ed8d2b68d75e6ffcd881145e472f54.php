@@ -181,8 +181,6 @@
 
                         <input type="hidden" value="<?php echo ($result["id"]); ?>" name="aid">
                         <button type="button" id="J-add" class="btn btn-default">修改</button>
-
-
                     </form>
 
                 </div>
