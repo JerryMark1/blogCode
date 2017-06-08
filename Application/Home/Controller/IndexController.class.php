@@ -82,7 +82,7 @@ class IndexController extends BaseController {
         }
         $result = $this->getArticleData(I('get.id'));
         if( $result ){
-            $this->getPv(I('get.id'));
+            getPv(I('get.id'));
             $this->assign('result',$result);
             $this->display();
         }else{
@@ -115,23 +115,39 @@ class IndexController extends BaseController {
             }
         }
     }
+
+
+
     /**
-     * 获取文章pv
+     * 文章关注
      * @author yxl 2017-6-8
+     * @url /index.php/Home/Index/Likes
      */
-    public function getPv($id){
-        if(!empty($id)){
-            $article = M('article');
-            $res = $article->field('pv')->where(['id'=>$id])->find();
-            $res['pv'] = intval($res['pv']);
-            $res['pv'] += 1;
-            $res = $article->where(['id'=>$id])->save(['pv'=>$res['pv']]);
-            if( $res ){
-                return true;
-            }else{
-                return false;
-            }
+    public function Likes(){
+        if(IS_AJAX){
+            if(!empty(I('id'))){
+                $ip = getIp();
+                $id = I('id');
+                $article = M('article');
+                $res = $article->field('like')->where(['id'=>$id])->find();
+                $res['like'] = intval($res['like']);
+                //关注
+                if( $_SESSION['id'] && $_SESSION['id'] == $id){
+                    jsonReturn('你已经关注过该文章',0);
+                }
+                        $res['like'] += 1;
+                        $news = $article->where(['id'=>$id])->save(['like'=>$res['like']]);
+                        if( $news ){
+                            $_SESSION['id'] = $id;
+                            jsonReturn('关注成功',1,$res['like']);
+                        }else{
+                            jsonReturn('关注失败',0);
+                        }
+
+
+                }
         }
+
 
     }
 

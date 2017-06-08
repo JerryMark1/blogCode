@@ -47,6 +47,51 @@ function check_verify($code, $id = ""){
     return $verify->check($code, $id);
 }
 
+/**
+ * 获取文章pv
+ * @author yxl 2017-6-8
+ */
+ function getPv($id){
+    if(!empty($id)){
+        $article = M('article');
+        $res = $article->field('pv')->where(['id'=>$id])->find();
+        $res['pv'] = intval($res['pv']);
+        $res['pv'] += 1;
+        $res = $article->where(['id'=>$id])->save(['pv'=>$res['pv']]);
+        if( $res ){
+            return true;
+        }else{
+            return false;
+        }
+    }
+}
+
+/**
+ * 获取用户ip
+ * @author yxl 2017-6-8
+ */
+function getIp() {
+    if (getenv('HTTP_CLIENT_IP')) {
+        $ip = getenv('HTTP_CLIENT_IP');
+    }
+    elseif (getenv('HTTP_X_FORWARDED_FOR')) {
+        $ip = getenv('HTTP_X_FORWARDED_FOR');
+    }
+    elseif (getenv('HTTP_X_FORWARDED')) {
+        $ip = getenv('HTTP_X_FORWARDED');
+    }
+    elseif (getenv('HTTP_FORWARDED_FOR')) {
+        $ip = getenv('HTTP_FORWARDED_FOR');
+
+    }
+    elseif (getenv('HTTP_FORWARDED')) {
+        $ip = getenv('HTTP_FORWARDED');
+    }
+    else {
+        $ip = $_SERVER['REMOTE_ADDR'];
+    }
+    return $ip;
+}
 
 function cn_substrr($str,$slen,$startdd=0)
 {

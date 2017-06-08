@@ -24,7 +24,6 @@ $(function(){
 						if( res.list ){
 							var _html ='';
 							$.each(res.list,function(k,v){
-								console.log( v );
 								_html+='<article class="post">\
 								<header>\
 								<div class="title">\
@@ -44,7 +43,7 @@ $(function(){
 						</ul>\
 						<ul class="stats">\
 								<li><a href="javascript:;">'+ v.categoryName +'</a></li>\
-								<li><a href="javascript:;" class="icon fa-heart">'+ v.like+'</a></li>\
+								<li><a href="javascript:;" class="icon fa-heart J-like" data-id="'+ v.id+'">'+ v.like+'</a></li>\
 								<li><a href="javascript:;" class="icon fa-comment">'+ v.pv+'</a></li>\
 								</ul>\
 								</footer>\
@@ -93,5 +92,23 @@ $(function(){
 		//上一页
 		$('#J-prev-page').on('click',function(){
 			pageObj.prevPage();
+		})
+		//关注
+		$('body').on('click','.J-like',function(){
+			var self = $(this),
+					id = self.attr('data-id');
+			$.ajax({
+				url:'/index.php/Home/Index/Likes',
+				type:'post',
+				dataType:'json',
+				data:{id:id},
+			}).then(function( res ){
+				if( res.code == 1){
+					alert('关注成功');
+					self.text( res.data );
+				}else{
+					alert( res.msg );
+				}
+			})
 		})
 });
