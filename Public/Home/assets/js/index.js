@@ -33,10 +33,10 @@ $(function(){
 						</div>\
 						<div class="meta">\
 								<time class="published" datetime="2015-10-22">'+ v.ctime +'</time>\
-						<a href="/index.php/Home/Index/article_detail/id/'+ v.id+'" class="author"><span class="name">'+ v.author +'</span><img src="images/avatar.jpg" alt="" /></a>\
+						<a href="/index.php/Home/Index/article_detail/id/'+ v.id+'" class="author"><span class="name">'+ v.author +'</span><img src="'+ v.userinfo.avatar+'" alt="" /></a>\
 								</div>\
 								</header>\
-								<a href="/index.php/Home/Index/article_detail/id/'+ v.id+'" class="image featured"><img src="'+ v.picurl +'" alt="" /></a>\
+								<a href="/index.php/Home/Index/article_detail/id/'+ v.id+'" class="image featured"><img style="width:100%;height:200px;" src="'+ v.picurl +'" alt="" /></a>\
 								<p></p>\
 						<footer>\
 						<ul class="actions">\
@@ -44,15 +44,16 @@ $(function(){
 						</ul>\
 						<ul class="stats">\
 								<li><a href="javascript:;">'+ v.categoryName +'</a></li>\
-								<li><a href="javascript:;" class="icon fa-heart">28</a></li>\
-								<li><a href="javascript:;" class="icon fa-comment">128</a></li>\
+								<li><a href="javascript:;" class="icon fa-heart">'+ v.like+'</a></li>\
+								<li><a href="javascript:;" class="icon fa-comment">'+ v.pv+'</a></li>\
 								</ul>\
 								</footer>\
 								</article>';
 							})
 							$('#J-main').html( _html );
 						}else{
-							$('#J-main').append( '<div class="loading-end">数据已加载完</div>' );
+							$('.loading-end').remove();
+							$('#J-main').append( '<div class="loading-end" style="color:red;">数据已加载完</div>' );
 						}
 					}else{
 						$('#J-main').append( '<div class="loading-end">暂无数据</div>' );

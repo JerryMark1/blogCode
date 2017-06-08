@@ -26,15 +26,15 @@ class ArticleController extends BaseController {
             $totalPages = ceil($total / $pageNum);
             //2. 实例化分页类对象
             $page = new \Component\Page($total,$page); //autoload
-            //3. 拼装sql语句获得每页信息
-            $sql = "select * from b_article order by ctime desc ".$page->limit;
+            //3. 拼装sql语句获得每页信息 id,title,author,descript,ctime,fid,tag
+            $sql = "select id,title,author,descript,ctime,fid,tag from b_article order by ctime desc ".$page->limit;
             $info = $model -> query($sql);
             if($info){
                 foreach($info as $k => $v){
                     $canitain['id'] = $v['fid'];
                     $tem  = $classfi->where(['id'=>$canitain['id']])->find();
                     $info[$k]['categoryName'] = $tem ? $tem['category_name'] : '普通';
-                    $info[$k]['descript'] = substr($v['descript'],0,20);
+                    $info[$k]['descript'] = cn_substr($v['descript'],10);
                     $info[$k]['ctime'] = date('Y-m-d h:i:s',$v['ctime']);
                 }
             }
@@ -135,7 +135,8 @@ class ArticleController extends BaseController {
                 'descript' => I('descript'),
                 'tag' => I('tag'),
                 'picurl' => I('picurl'),
-                'picthum' => I('picthum')
+                'picthum' => I('picthum'),
+                'uid'  => $_SESSION['userId']
             );
             $res = $model->where(['title' => $data['title']])->select();
             if( $res ){
@@ -177,7 +178,7 @@ class ArticleController extends BaseController {
             $data = array(
                 'title' => I('title'),
                 'author' => $_SESSION['userName'],
-                'content' => $_POST['content'],
+                'content' => $_POST['editorValue'],
                 'fid'  => I('fid'),
                 'ctime' => time(),
                 'descript' => I('descript'),

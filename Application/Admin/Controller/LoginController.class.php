@@ -41,7 +41,7 @@ class LoginController extends BaseController{
             );
             $info = $user->where($data)->find();
             if( $info ){
-                session(array('name'=>'is_login','expire'=>3600));
+                $_SESSION['userId'] = $info['id'];
                 $_SESSION['is_login'] = 1;
                 $_SESSION['userName'] = $data['username'];
                 jsonReturn('ok',1);

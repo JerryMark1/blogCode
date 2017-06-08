@@ -33,6 +33,8 @@ class IndexController extends BaseController {
         if(IS_AJAX){
             $model = M('Article');
             $classfi = M('article_category');
+            $user = M('user');
+
             //1. 获得当前记录总条数
             $total = $model -> count();
             $page = $_REQUEST['page'] ? $_REQUEST['page'] : 1;
@@ -49,10 +51,12 @@ class IndexController extends BaseController {
                     $canitain['id'] = $v['fid'];
                     $tem  = $classfi->where(['id'=>$canitain['id']])->find();
                     $info[$k]['categoryName'] = $tem ? $tem['category_name'] : '普通';
-                    $info[$k]['descript'] = substr($v['descript'],0,20);
+                    $info[$k]['descript'] = $v['descript'];
                     $info[$k]['ctime'] = date('Y-m-d h:i:s',$v['ctime']);
+                    $info[$k]['userinfo'] = $user->where(['id'=>$v['uid']])->find();
                 }
             }
+//            show_bug( $info );
             jsonList('ok',1,$info,['totalPages' => $totalPages]);
         }
     }
@@ -76,20 +80,57 @@ class IndexController extends BaseController {
         if(!I('get.id')){
             $this->redirect('Index/error');
         }
-        $model = M('article');
-        $classfi = M('article_category');
-        $result = $model->where(['id'=>I('get.id')])->find();
+        $result = $this->getArticleData(I('get.id'));
         if( $result ){
-            $canitain['id'] = $result['fid'];
-            $tem  = $classfi->where(['id'=>$canitain['id']])->find();
-            $result['categoryName'] = $tem ? $tem['category_name'] : '普通';
-            $result['descript'] = substr($result['descript'],0,20);
-            $result['ctime'] = date('Y-m-d h:i:s',$result['ctime']);
-//            show_bug($result);
+            $this->getPv(I('get.id'));
             $this->assign('result',$result);
             $this->display();
         }else{
             $this->redirect('Index/error');
+        }
+
+    }
+
+    /**
+     * 文章详情数据
+     * @author yxl 2017-6-8
+     * @param id 文章id
+     */
+    public function getArticleData($id){
+        if($id){
+            $model = M('article');
+            $classfi = M('article_category');
+            $user = M('user');
+            $result = $model->where(['id'=>$id])->find();
+            if( $result ){
+                $canitain['id'] = $result['fid'];
+                $tem  = $classfi->where(['id'=>$canitain['id']])->find();
+                $result['categoryName'] = $tem ? $tem['category_name'] : '普通';
+                $result['descript'] = $result['descript'];
+                $result['ctime'] = date('Y-m-d h:i:s',$result['ctime']);
+                $result['userinfo'] = $user->where(['id'=>$result['uid']])->find();
+               return $result;
+            }else{
+                return null;
+            }
+        }
+    }
+    /**
+     * 获取文章pv
+     * @author yxl 2017-6-8
+     */
+    public function getPv($id){
+        if(!empty($id)){
+            $article = M('article');
+            $res = $article->field('pv')->where(['id'=>$id])->find();
+            $res['pv'] = intval($res['pv']);
+            $res['pv'] += 1;
+            $res = $article->where(['id'=>$id])->save(['pv'=>$res['pv']]);
+            if( $res ){
+                return true;
+            }else{
+                return false;
+            }
         }
 
     }

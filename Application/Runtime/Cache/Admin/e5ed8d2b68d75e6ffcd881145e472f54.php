@@ -80,8 +80,12 @@
                 <a href="tables.html"><i class="fa fa-fw fa-table"></i> Tables</a>
             </li>-->
             <li>
+                <a href="<?php echo U('Admin/User/index');?>"><i class="fa fa-fw fa-desktop"></i> 用户管理</a>
+            </li>
+            <li>
                 <a href="<?php echo U('Admin/Article/article_list');?>"><i class="fa fa-fw fa-edit"></i> 文章管理</a>
             </li>
+
            <!-- <li>
                 <a href="bootstrap-elements.html"><i class="fa fa-fw fa-desktop"></i> Bootstrap Elements</a>
             </li>
@@ -159,8 +163,8 @@
                                 </div>
                                 <div id="filePicker">选择图片</div>
                             </div>
-                            <input type="hidden" name="picurl" id="J-picurl">
-                            <input type="hidden" name="picthum" id="J-picthum">
+                            <input type="hidden" value="<?php echo ($result["picurl"]); ?>" name="picurl" id="J-picurl">
+                            <input type="hidden" value="<?php echo ($result["picthum"]); ?>" name="picthum" id="J-picthum">
                         </div>
                         <div class="form-group">
                             <label>标签云</label>

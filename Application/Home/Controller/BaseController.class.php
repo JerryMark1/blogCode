@@ -22,7 +22,6 @@ class BaseController extends Controller {
         //输出分类
         $classInfo = $classfild->field('category_name')->select();
         $this -> $classfilyArr = $classInfo;
-
     }
 
 

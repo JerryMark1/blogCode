@@ -25,18 +25,18 @@
                     </div>
                     <div class="meta">
                         <time class="published" datetime="2015-11-01">{$result.ctime}</time>
-                        <a href="#" class="author"><span class="name">{$result.author}</span><img src="images/avatar.jpg" alt="" /></a>
+                        <a href="#" class="author"><span class="name">{$result.author}</span><img src="{$result.userinfo.avatar}" alt="" /></a>
                     </div>
                 </header>
-                <span class="image featured"><img src="{$result.picurl}" alt="" /></span>
-                <p>
+                <span class="image featured"><img  src="{$result.picurl}" alt="" /></span>
+                <div>
                     {$result.content}
-                </p>
+                </div>
                 <footer>
                     <ul class="stats">
                         <li><a href="#">{$result.categoryName}</a></li>
-                        <li><a href="#" class="icon fa-heart">28</a></li>
-                        <li><a href="#" class="icon fa-comment">128</a></li>
+                        <li><a href="#" class="icon fa-heart">{$result.like}</a></li>
+                        <li><a href="#" class="icon fa-comment">{$result.pv}</a></li>
                     </ul>
                 </footer>
             </article>

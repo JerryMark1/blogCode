@@ -15,7 +15,7 @@
 
     <!-- Header -->
     <header id="header">
-        <h1><a href="#">yxlblog</a></h1>
+        <h1><a href="/index.php/Home/Index/Index">yxlblog</a></h1>
         <nav class="links">
             <ul>
                 <?php if(is_array($classInfo)): foreach($classInfo as $k=>$v): if(is_array($v)): foreach($v as $k2=>$v2): ?><li><a href="#"><?php echo ($v2['category_name']); ?></a></li><?php endforeach; endif; endforeach; endif; ?>
@@ -75,7 +75,7 @@
         </div>
         <!-- Pagination -->
         <ul class="actions pagination">
-            <li><a href="" class="button big previous" id="J-prev-page">上一页</a></li>
+            <li><a href="" class="disabled button big previous" id="J-prev-page">上一页</a></li>
             <li><a href="#" class="button big next" id="J-next-page">下一页</a></li>
         </ul>
 
@@ -203,14 +203,7 @@
         
 <!-- Footer -->
 <section id="footer">
-    <ul class="icons">
-        <li><a href="#" class="fa-twitter"><span class="label">Twitter</span></a></li>
-        <li><a href="#" class="fa-facebook"><span class="label">Facebook</span></a></li>
-        <li><a href="#" class="fa-instagram"><span class="label">Instagram</span></a></li>
-        <li><a href="#" class="fa-rss"><span class="label">RSS</span></a></li>
-        <li><a href="#" class="fa-envelope"><span class="label">Email</span></a></li>
-    </ul>
-    <p class="copyright">&copy; Untitled. Design: <a href="http://html5up.net">HTML5 UP</a>. Images: <a href="http://unsplash.com">Unsplash</a>.</p>
+    <p class="copyright">&copy; Untitled. Design: <a href="http://yxlblog.com">yxlblog</a>. Images: <a href="http://yxlblog.com">yxlblog</a>.</p>
 </section>
 <!-- Scripts -->
 <script src="<?php echo (HOME_RESOURCE); ?>/js/jquery.min.js"></script>

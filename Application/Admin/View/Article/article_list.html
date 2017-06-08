@@ -138,13 +138,13 @@
                             })
                             $('#J-content').html(_html);
                         } else {
-                            $('#J-content').html('暂无记录');
+                            $('#J-content').html('<tr><td colspan="8">暂无记录</td></tr>');
                         }
 
                     }
 
                     var currentPage = data.currentPage || 1;
-                    var totalPages = data.curren.totalPages || 10;
+                    var totalPages = data.curren.totalPages || 1;
                     var options = {
                         currentPage: currentPage, //当前页
                         totalPages: totalPages, //总页数

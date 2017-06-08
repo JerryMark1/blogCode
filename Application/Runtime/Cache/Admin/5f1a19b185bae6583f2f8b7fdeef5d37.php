@@ -80,8 +80,12 @@
                 <a href="tables.html"><i class="fa fa-fw fa-table"></i> Tables</a>
             </li>-->
             <li>
+                <a href="<?php echo U('Admin/User/index');?>"><i class="fa fa-fw fa-desktop"></i> 用户管理</a>
+            </li>
+            <li>
                 <a href="<?php echo U('Admin/Article/article_list');?>"><i class="fa fa-fw fa-edit"></i> 文章管理</a>
             </li>
+
            <!-- <li>
                 <a href="bootstrap-elements.html"><i class="fa fa-fw fa-desktop"></i> Bootstrap Elements</a>
             </li>

@@ -35,5 +35,15 @@ class BaseController extends Controller {
         $this->redirect('Index/error');
     }
 
+    /**
+     * 404
+     * @author yxl 2017-5-25
+     * @url /index.php/Admin/Index/error
+     *
+     */
+    public function error(){
+        $this->display('Index/404');
+    }
+
 
 }
